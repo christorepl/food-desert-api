@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const {CLIENT_ORIGIN, RAPID_API_KEY, NODE_ENV} = require('./config');
 const StatesService = require('./StatesService/states-service')
 
+//WHICH BRANCH IS IT DEFAULTING TO
 // const knexInstance = knex({
 //   client: 'pg',
 //   connection: process.env.DB_URL
