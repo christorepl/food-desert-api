@@ -1,44 +1,20 @@
 const express = require('express');
-require('dotenv').config()
-const knex = require('knex')
 const app = express();
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+// const knex = require('knex')
 const cors = require('cors');
 const axios = require("axios").default;
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const {CLIENT_ORIGIN, RAPID_API_KEY, NODE_ENV} = require('./config');
 const StatesService = require('./StatesService/states-service')
 
-//WHICH BRANCH IS IT DEFAULTING TO
-// const knexInstance = knex({
-//   client: 'pg',
-//   connection: process.env.DB_URL
-// })
+app.use(express.json())
+app.use(cors())
 
-//covid api//
-// var options = {
-//   method: 'GET',
-//   url: 'https://coronavirus-us-api.p.rapidapi.com/api/county/all',
-//   params: {source: 'nyt', fips: '01, 02'},
-//   headers: {
-//     'x-rapidapi-key': RAPID_API_KEY,
-//     'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
-//   }
-// };
+app.use('/api/auth', require('./routes/jwtAuth'))
+app.use('/api/auth/dashboard', require('./routes/dashboard'))
 
-// axios.request(options).then(function (response) {
-// 	console.log(response.data);
-// }).catch(function (error) {
-// 	console.error(error);
-// });
-//covid api
-
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-);
-
-const PORT = process.env.PORT || 8001;
 
 app.get('/api/states', (req, res, next) => {
   const knexInstance = req.app.get('db')
@@ -51,7 +27,7 @@ app.get('/api/states', (req, res, next) => {
 
 app.get('/api/states/:fips', (req, res, next) => {
   const knexInstance = req.app.get('db')
-  console.log(req.params)
+  .log(req.params)
   const fips = req.params.fips
   StatesService.getByFips(knexInstance, fips)
     .then(state => {
@@ -65,10 +41,5 @@ app.get('/api/states/:fips', (req, res, next) => {
     .catch(next)
 })
 
-app.get('/api/*', (req, res) => {
-res.json({ok: true});
-});
-
-// app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = app;
