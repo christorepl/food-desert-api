@@ -24,7 +24,7 @@ insertC19Data = async(data) => {
     }
 }
 
-app.get('/api/state/all', (req, res, next) => {
+app.get('/api/state/all', async (req, res, next) => {
   const knexInstance = req.app.get('db')
   console.log('rapid_api_key', process.env.RAPID_API_KEY)
 
