@@ -42,7 +42,7 @@ app.get('/api/state/all', (req, res, next) => {
   }
 
   axios.request(options).then(function (response) {
-    console.log(response)
+    console.log('c19 data', response)
     insertC19Data(response.data.locations)
   }).catch(function (error) {
     console.error(error)
@@ -57,6 +57,7 @@ app.get('/api/state/all', (req, res, next) => {
 
 app.get('/api/state/search', async (req, res, next) => {
   //example url: http://baseURL:port/api/state/search?fips=01&fips=02
+  console.log('getting a state')
   const knexInstance = req.app.get('db')
   const { fips } = req.query
 
