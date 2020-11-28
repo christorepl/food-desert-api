@@ -64,7 +64,6 @@ app.get('/api/state/search', async (req, res, next) => {
     })
     .catch(next)
   }
-  axios
 
 
   res.json(results)
