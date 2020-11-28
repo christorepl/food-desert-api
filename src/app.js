@@ -28,6 +28,7 @@ insertC19Data = async(data) => {
 }
 
 app.get('/api/state/all', (req, res, next) => {
+  console.log('getting all states')
   const knexInstance = req.app.get('db')
 
   var options = {
@@ -41,6 +42,7 @@ app.get('/api/state/all', (req, res, next) => {
   }
 
   axios.request(options).then(function (response) {
+    console.log(response)
     insertC19Data(response.data.locations)
   }).catch(function (error) {
     console.error(error)
