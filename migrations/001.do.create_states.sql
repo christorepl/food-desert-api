@@ -3,6 +3,10 @@ CREATE TABLE states (
     state_name TEXT NOT NULL UNIQUE,
     fips NUMERIC NOT NULL UNIQUE,
     state_abbrev TEXT NOT NULL UNIQUE,
+    pop NUMERIC NOT NULL,
+    --pop = population
+    covid_infections NUMERIC NOT NULL DEFAULT 0,
+    covid_deaths NUMERIC NOT NULL DEFAULT 0,
     poverty_rate NUMERIC NOT NULL,
     food_insecurity_rate NUMERIC NOT NULL,
     white NUMERIC NOT NULL,
@@ -23,4 +27,6 @@ CREATE TABLE states (
     ranking_other INTEGER NOT NULL,
     ranking_pov INTEGER NOT NULL,
     ranking_fi INTEGER NOT NULL
+    --food insecurity ranking
+
 );
