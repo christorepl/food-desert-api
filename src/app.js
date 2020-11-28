@@ -17,7 +17,7 @@ insertC19Data = async(data) => {
   console.log('insertc19')
   try {
   const insertData = await data.map(state => {
-    pool.query('UPDATE public.states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1', [state.fips, state.latest.confirmed, state.latest.deaths]
+    pool.query('UPDATE states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1', [state.fips, state.latest.confirmed, state.latest.deaths]
     )})
   } catch(err){
       console.error(err.message)
