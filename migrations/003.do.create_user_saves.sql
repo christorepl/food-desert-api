@@ -7,6 +7,10 @@ CREATE TABLE user_saves (
     state_name TEXT NOT NULL ,
     fips NUMERIC NOT NULL ,
     state_abbrev TEXT NOT NULL ,
+    pop NUMERIC NOT NULL,
+    --pop = population
+    covid_infections NUMERIC NOT NULL,
+    covid_deaths NUMERIC NOT NULL,
     poverty_rate NUMERIC NOT NULL,
     food_insecurity_rate NUMERIC NOT NULL,
     white NUMERIC NOT NULL,
@@ -27,6 +31,7 @@ CREATE TABLE user_saves (
     ranking_other INTEGER NOT NULL ,
     ranking_pov INTEGER NOT NULL ,
     ranking_fi INTEGER NOT NULL 
+    --food insecurity ranking
 );
 
 

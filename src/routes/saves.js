@@ -38,15 +38,15 @@ router.get("/user_saves/:save", authorization, async (req, res) => {
 router.post("/user_saves", authorization, async (req, res) => {
   try {
     //MUST ADD COVID DATA TO THIS POST
-    const { save_name, state_name, state_abbrev, fips, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other } = req.body;
+    const { save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other } = req.body;
     const newSave = await pool.query(
-      "INSERT INTO user_saves (user_id, save_name, state_name, state_abbrev, fips, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25) RETURNING *",
-      [req.user.id, save_name, state_name, state_abbrev, fips, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other]
+      "INSERT INTO user_saves (user_id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) RETURNING *",
+      [req.user.id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other]
     );
 
     res.json(newSave.rows[0]);
   } catch (error) {
-    console.log('saves line 40', error.message);
+    console.log('saves line 49', error.message);
   }
 });
 
@@ -132,6 +132,5 @@ router.delete("/user_saves/saves/:save", authorization, async (req, res) => {
   }
 
 })
-
 
 module.exports = router;
