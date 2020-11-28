@@ -8,9 +8,11 @@
     "dev": "nodemon src/server.js",
     "migrate": "postgrator --config postgrator-config.js",
     "migrate:test": "env NODE_ENV=test npm run migrate",
+    "migrate:production": "heroku run npm run migrate",
     "start": "node src/server.js",
     "predeploy": "npm audit",
-    "deploy": "git push heroku main"
+    "deploy": "git push heroku main",
+    "postdeploy": "npm run migrate:production"
   },
   "keywords": [],
   "author": "Christopher O'Brien",
@@ -30,6 +32,7 @@
     "mysql": "^2.18.1",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "postgrator": "^4.1.1",
     "sequelize": "^6.3.5",
     "uuid": "^8.3.1"
   },
