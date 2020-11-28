@@ -4,6 +4,7 @@ const pool = require("./db");
 require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
+const { RAPID_API_KEY } = require('./config')
 const StatesService = require('./StatesService/states-service')
 
 app.use(express.json())
@@ -14,7 +15,6 @@ app.use('/api/save', require('./routes/saves'))
 
 
 insertC19Data = async(data) => {
-  console.log('insertc19')
   try {
   const insertData = await data.map(state => {
     pool.query('UPDATE states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1', [state.fips, state.latest.confirmed, state.latest.deaths]
@@ -26,20 +26,18 @@ insertC19Data = async(data) => {
 
 app.get('/api/state/all', async (req, res, next) => {
   const knexInstance = req.app.get('db')
-  console.log('rapid_api_key', process.env.RAPID_API_KEY)
 
   var options = {
     method: 'GET',
     url: 'https://coronavirus-us-api.p.rapidapi.com/api/state/all',
     params: {source: 'nyt'},
     headers: {
-      'x-rapidapi-key': 'f856ce1be7msh05dc252992ee3ebp1b11dejsn39f441ac34e3',
+      'x-rapidapi-key': process.env.RAPID_API_KEY,
       'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
     }
   }
 
   axios.request(options).then(function (response) {
-    console.log('c19 res received')
     insertC19Data(response.data.locations)
   }).catch(function (error) {
     console.error(error)
@@ -54,7 +52,6 @@ app.get('/api/state/all', async (req, res, next) => {
 
 app.get('/api/state/search', async (req, res, next) => {
   //example url: http://baseURL:port/api/state/search?fips=01&fips=02
-  console.log('getting a state')
   const knexInstance = req.app.get('db')
   const { fips } = req.query
 
