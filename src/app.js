@@ -4,7 +4,6 @@ const pool = require("./db");
 require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
-const { RAPID_API_KEY } = require('./config')
 const StatesService = require('./StatesService/states-service')
 
 app.use(express.json())
