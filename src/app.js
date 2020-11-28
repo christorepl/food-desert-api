@@ -4,7 +4,6 @@ const pool = require("./db");
 require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
-// const {CLIENT_ORIGIN, RAPID_API_KEY, NODE_ENV} = require('./config');
 const StatesService = require('./StatesService/states-service')
 
 app.use(express.json())
@@ -27,6 +26,7 @@ insertC19Data = async(data) => {
 
 app.get('/api/state/all', (req, res, next) => {
   const knexInstance = req.app.get('db')
+  console.log(process.env.RAPID_API_KEY)
 
   var options = {
     method: 'GET',
@@ -39,7 +39,7 @@ app.get('/api/state/all', (req, res, next) => {
   }
 
   axios.request(options).then(function (response) {
-    console.log('c19 res received', response.data.locations)
+    console.log('c19 res received')
     insertC19Data(response.data.locations)
   }).catch(function (error) {
     console.error(error)
