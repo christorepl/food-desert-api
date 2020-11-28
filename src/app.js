@@ -2,11 +2,9 @@ const express = require('express');
 const app = express();
 const pool = require("./db");
 require('dotenv').config()
-// const knex = require('knex')
 const cors = require('cors');
 const axios = require("axios").default;
-// const helmet = require('helmet');
-const {CLIENT_ORIGIN, RAPID_API_KEY, NODE_ENV} = require('./config');
+// const {CLIENT_ORIGIN, RAPID_API_KEY, NODE_ENV} = require('./config');
 const StatesService = require('./StatesService/states-service')
 
 app.use(express.json())
@@ -28,7 +26,6 @@ insertC19Data = async(data) => {
 }
 
 app.get('/api/state/all', (req, res, next) => {
-  console.log('getting all states')
   const knexInstance = req.app.get('db')
 
   var options = {
@@ -36,13 +33,13 @@ app.get('/api/state/all', (req, res, next) => {
     url: 'https://coronavirus-us-api.p.rapidapi.com/api/state/all',
     params: {source: 'nyt'},
     headers: {
-      'x-rapidapi-key': RAPID_API_KEY,
+      'x-rapidapi-key': process.env.RAPID_API_KEY,
       'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
     }
   }
 
   axios.request(options).then(function (response) {
-    console.log('c19 data', response)
+    console.log('c19 res received', response.data.locations)
     insertC19Data(response.data.locations)
   }).catch(function (error) {
     console.error(error)
