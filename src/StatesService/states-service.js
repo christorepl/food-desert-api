@@ -3,9 +3,21 @@ const StatesService = {
         return knex.select('*').from('states')
     },
 
-    getByFips(knex, fips) {
-        return knex.from('states').select('*').where('fips', fips).first()
+    getByFips(knex, fips) {        
+        return knex.select('*').from('states').where('fips', parseInt(fips))
     },
 }
 
 module.exports = StatesService
+
+// const StatesService = {
+//     getAllStates(knex) {
+//         return knex.select('*').from('states')
+//     },
+
+//     getByFips(knex, fips) {
+//         return knex.select('*').from('states').where('fips', parseInt(fips))
+//     },
+// }
+
+// module.exports = StatesService
