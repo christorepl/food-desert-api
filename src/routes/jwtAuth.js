@@ -26,10 +26,9 @@ router.post('/register', validInfo, async (req, res) => {
       );
   
       const jwt_token = jwtGenerator(newUser.rows[0].user_id);
-      console.log(jwt_token)
       return res.json({ jwt_token });
     } catch (error) {
-      console.log('line 32 jwtauth', error.message);
+      console.error(error.message);
       res.status(500).send('Server error');
     }
 });
@@ -55,10 +54,9 @@ router.post('/login', validInfo, async (req, res) => {
         return res.status(401).json('Invalid Credential');
       }
       const jwt_token = jwtGenerator(user.rows[0].user_id);
-      console.log(jwt_token)
       return res.json({ jwt_token });
     } catch (error) {
-      console.log('jwtauth line 60', error.message);
+      console.error(error.message);
       res.status(500).send('Server error');
     }
 });
@@ -67,7 +65,7 @@ router.get('/verify', authorization, async (req, res) => {
     try {
       res.json(true);
     } catch (error) {
-      console.log('jwtuth line 69', error.message);
+      console.error(error.message);
       res.status(500).send('Server error');
     }
 });

@@ -14,17 +14,9 @@ app.use(cors())
 
 app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
-// app.use('/api/states', require('./routes/states'))
 
-// async function insertC19Data (data) {
-//   // console.log(data)
-//   data.map(state => {
-//     await pool.query("INSERT INTO states (covid_infections, covid_deaths) WHERE states.fips = $1 VALUES ($2, $3) RETURNING *", [state.fips, state.latest.confirmed, state.latest.deaths]
-//     )})
-// }
 
 insertC19Data = async(data) => {
-  console.log(data)
   try {
   const insertData = await data.map(state => {
     pool.query("UPDATE states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1", [state.fips, state.latest.confirmed, state.latest.deaths]
@@ -52,9 +44,6 @@ app.get('/api/state/all', (req, res, next) => {
   }).catch(function (error) {
     console.error(error)
   })
-
-
-  
  StatesService.getAllStates(knexInstance)
     .then(states => {
       res.json(states)
@@ -64,7 +53,7 @@ app.get('/api/state/all', (req, res, next) => {
 
 
 app.get('/api/state/search', async (req, res, next) => {
-  //example url: http://baseURL:port/api/states/search?fips=01&fips=02
+  //example url: http://baseURL:port/api/state/search?fips=01&fips=02
   const knexInstance = req.app.get('db')
   const { fips } = req.query
 
@@ -82,9 +71,17 @@ app.get('/api/state/search', async (req, res, next) => {
     })
     .catch(next)
   }
-
-
   res.json(results)
+})
+
+app.use((error, req, res, next) =>{ 
+  let response
+  if (process.env.NODE_ENV === 'production') {
+    response = { error: { message: 'Server Error' }}
+  } else {
+    response = { error }
+  }
+  res.status(500).json(response)
 })
 
 module.exports = app;

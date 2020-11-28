@@ -16,7 +16,7 @@ router.get("/user_saves", authorization, async (req, res) => {
     res.json({userName, userSaves: user.rows});
 
   } catch (error) {
-    console.log('saves line 20', error.message);
+    ('saves line 20', error.message);
     res.status(500).send("Server error");
   }
 });
@@ -46,7 +46,7 @@ router.post("/user_saves", authorization, async (req, res) => {
 
     res.json(newSave.rows[0]);
   } catch (error) {
-    console.log('saves line 49', error.message);
+    console.error(error.message);
   }
 });
 
@@ -89,7 +89,7 @@ router.put("/user_saves/:id", authorization, async (req, res) => {
     res.json("Save was updated.");
 
   } catch (error) {
-    console.log('saves line 73', error.message);
+    console.error(error.message);
   }
 });
 
