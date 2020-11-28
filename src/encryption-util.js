@@ -1,6 +1,6 @@
 import config from '../config/config';
 import { createCipheriv, createDecipheriv, scryptSync } from 'crypto';
-const secret = config.get('authentication.token.secret');
+const secret = config.get('authentication.jwt_token.secret');
 const algorithm = 'aes-192-cbc';const key = scryptSync(secret, 'salt', 24);
 const iv = Buffer.alloc(16, 0); // Initialization crypto vectorexport function encrypt(text: string) {
   const cipher = createCipheriv(algorithm, key, iv);
