@@ -13,7 +13,7 @@ app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
 
 
-insertC19Data = async(data) => {
+insertC19Data = async (data) => {
   try {
   const insertData = await data.map(state => {
     pool.query('UPDATE states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1', [state.fips, state.latest.confirmed, state.latest.deaths]
@@ -22,6 +22,25 @@ insertC19Data = async(data) => {
       console.error(err.message)
     }
 }
+
+app.get('/api/state/update_c19', async (req, res, next) => {
+  var options = {
+    method: 'GET',
+    url: 'https://coronavirus-us-api.p.rapidapi.com/api/state/all',
+    params: {source: 'nyt'},
+    headers: {
+      'x-rapidapi-key': process.env.RAPID_API_KEY,
+      'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
+    }
+  }
+
+  axios.request(options).then(function (response) {
+    insertC19Data(response.data.locations)
+    res.send('data received and sent to insert function')
+  }).catch(function (error) {
+    console.error(error)
+  })
+})
 
 app.get('/api/state/all', async (req, res, next) => {
   const knexInstance = req.app.get('db')

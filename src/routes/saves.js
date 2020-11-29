@@ -4,8 +4,7 @@ const pool = require("../db");
 
 //all saves and name
 
-
-router.get("/user_saves", authorization, async (req, res) => {
+router.get("/user_save", authorization, async (req, res) => {
   try {  
 
     const userData = await pool.query("SELECT user_name FROM users WHERE user_id = $1", [req.user.id])    
@@ -21,7 +20,7 @@ router.get("/user_saves", authorization, async (req, res) => {
   }
 });
 
-router.get("/user_saves/:save", authorization, async (req, res) => {
+router.get("/user_save/:save", authorization, async (req, res) => {
   try {
     const { save } = req.params 
     const saves = await pool.query("SELECT * FROM user_saves WHERE user_id = $1 AND save_name = $2", [req.user.id, save])
@@ -33,11 +32,9 @@ router.get("/user_saves/:save", authorization, async (req, res) => {
 })
 
 //create a save
-//UPDATE WITH COVID INFO
 
-router.post("/user_saves", authorization, async (req, res) => {
+router.post("/user_save", authorization, async (req, res) => {
   try {
-    //MUST ADD COVID DATA TO THIS POST
     const { save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other } = req.body;
     const newSave = await pool.query(
       "INSERT INTO user_saves (user_id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) RETURNING *",
@@ -54,7 +51,9 @@ router.post("/user_saves", authorization, async (req, res) => {
 
 //update a save
 
-router.put("/user_saves/:id", authorization, async (req, res) => {
+/////////////////////////ALLOW USERS TO ADD STATES FROM A SEARCH TO AN EXISTING SAVE!/////////////////////////////////////
+
+router.put("/user_save/:id", authorization, async (req, res) => {
   try {
     const { id } = req.params;
     const { new_save_name, save_name } = req.body;
@@ -96,7 +95,7 @@ router.put("/user_saves/:id", authorization, async (req, res) => {
 
 //delete one state from a save
 
-router.delete("/user_saves/states/:id", authorization, async (req, res) => {
+router.delete("/user_save/state/:id", authorization, async (req, res) => {
   try {
     const { id } = req.params;
     const deleteState = await pool.query(
@@ -116,7 +115,7 @@ router.delete("/user_saves/states/:id", authorization, async (req, res) => {
 
 //delete entire save
 
-router.delete("/user_saves/saves/:save", authorization, async (req, res) => {
+router.delete("/user_save/save/:save", authorization, async (req, res) => {
   try {
   const { save } = req.params
 
