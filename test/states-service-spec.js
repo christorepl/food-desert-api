@@ -1,6 +1,8 @@
 const StatesService = require('../src/StatesService/states-service')
 const knex = require('knex')
 
+
+//update tests to reflect covid data
 describe(`States service object`, function() {
     let db
     let testStates = [
