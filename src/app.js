@@ -23,25 +23,6 @@ insertC19Data = async (data) => {
     }
 }
 
-app.get('/api/state/update_c19', async (req, res, next) => {
-  var options = {
-    method: 'GET',
-    url: 'https://coronavirus-us-api.p.rapidapi.com/api/state/all',
-    params: {source: 'nyt'},
-    headers: {
-      'x-rapidapi-key': process.env.RAPID_API_KEY,
-      'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
-    }
-  }
-
-  axios.request(options).then(function (response) {
-    insertC19Data(response.data.locations)
-    res.send('data received and sent to insert function')
-  }).catch(function (error) {
-    console.error(error)
-  })
-})
-
 app.get('/api/state/all', async (req, res, next) => {
   const knexInstance = req.app.get('db')
 
@@ -83,6 +64,9 @@ app.get('/api/state/search', async (req, res, next) => {
         })
       }
       results.push(state)
+      results.sort((a,b) => {
+        return a[0].id - b[0].id
+      })
       return results
     })
     .catch(next)

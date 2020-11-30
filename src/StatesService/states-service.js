@@ -1,6 +1,6 @@
 const StatesService = {
     getAllStates(knex) {
-        return knex.select('*').from('states')
+        return knex.select('*').orderBy('state_name').from('states')
     },
 
     getByFips(knex, fips) {        
