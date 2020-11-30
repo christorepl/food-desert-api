@@ -16,6 +16,7 @@ app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
 
 insertC19Data = async (data) => {
+  console.log('inserting c19')
   try {
   const insertData = await data.map(state => {
     pool.query('UPDATE states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1', [state.fips, state.latest.confirmed, state.latest.deaths]
