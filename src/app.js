@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const pool = require("./db");
+const { CLIENT_ORIGIN } = require('./config');
 require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
@@ -8,7 +9,9 @@ const StatesService = require('./StatesService/states-service')
 
 app.use(express.json())
 
-app.use(cors())
+app.use(cors({
+  origin: CLIENT_ORIGIN
+}))
 app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
 

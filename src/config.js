@@ -9,6 +9,4 @@ module.exports = {
     DATABASE: process.env.DATABASE,
     DBPORT: process.env.DBPORT,
     HOST: process.env.HOST
-  }
-
-  console.log(DATABASE_URL)
+}
