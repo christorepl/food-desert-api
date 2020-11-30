@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const pool = require("./db");
-const { CLIENT_ORIGIN } = require('./config');
+const { CLIENT_ORIGIN, RAPID_API_KEY } = require('./config');
 require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
@@ -34,7 +34,7 @@ app.get('/api/state/all', async (req, res, next) => {
     url: 'https://coronavirus-us-api.p.rapidapi.com/api/state/all',
     params: {source: 'nyt'},
     headers: {
-      'x-rapidapi-key': process.env.RAPID_API_KEY,
+      'x-rapidapi-key': RAPID_API_KEY,
       'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
     }
   }
