@@ -9,15 +9,11 @@ const {CLIENT_ORIGIN} = require('./config');
 
 app.use(express.json())
 
+app.use(cors())
 app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
 
 
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-);
 
 
 insertC19Data = async (data) => {
