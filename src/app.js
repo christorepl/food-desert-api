@@ -13,9 +13,6 @@ app.use(cors())
 app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
 
-
-
-
 insertC19Data = async (data) => {
   try {
   const insertData = await data.map(state => {
