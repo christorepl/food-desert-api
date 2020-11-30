@@ -5,7 +5,6 @@ require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
 const StatesService = require('./StatesService/states-service')
-const {CLIENT_ORIGIN} = require('./config');
 
 app.use(express.json())
 
