@@ -1,9 +1,11 @@
-const router = require('express').Router()
-const pool = require('../db')
-const jwtGenerator = require('../utils/jwtGenerator')
+require('dotenv').config();
+const express = require("express");
+const router = express.Router()
 const bcrypt = require('bcrypt')
-const authorization = require('../middleware/authorization')
+const pool = require('../db')
 const validInfo = require('../middleware/validInfo')
+const jwtGenerator = require('../utils/jwtGenerator')
+const authorization = require('../middleware/authorization')
 
 router.post('/register', validInfo, async (req, res) => {
     const { email, user_name, password } = req.body;
