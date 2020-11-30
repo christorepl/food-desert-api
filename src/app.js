@@ -28,13 +28,14 @@ insertC19Data = async (data) => {
 
 app.get('/api/state/all', async (req, res, next) => {
   const knexInstance = req.app.get('db')
+  console.log(process.env.RAPID_API_KEY)
 
   var options = {
     method: 'GET',
     url: 'https://coronavirus-us-api.p.rapidapi.com/api/state/all',
     params: {source: 'nyt'},
     headers: {
-      'x-rapidapi-key': RAPID_API_KEY,
+      'x-rapidapi-key': process.env.RAPID_API_KEY,
       'x-rapidapi-host': 'coronavirus-us-api.p.rapidapi.com'
     }
   }
