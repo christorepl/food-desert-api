@@ -4,7 +4,7 @@ const StatesService = {
     },
 
     getByFips(knex, fips) {        
-        return knex.select('*').from('states').where('fips', parseInt(fips))
+        return knex.select('*').from('states').where('fips', fips)
     },
 }
 

@@ -40,7 +40,6 @@ router.post("/user_save", authorization, async (req, res) => {
       "INSERT INTO user_saves (user_id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) RETURNING *",
       [req.user.id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other]
     );
-
     res.json(newSave.rows[0]);
   } catch (error) {
     console.error(error.message);

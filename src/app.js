@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
 const pool = require("./db");
-const { CLIENT_ORIGIN, RAPID_API_KEY } = require('./config');
+const { CLIENT_ORIGIN } = require('./config');
 require('dotenv').config()
 const cors = require('cors');
 const axios = require("axios").default;
 const StatesService = require('./StatesService/states-service')
+
+// https://stackoverflow.com/questions/24059773/correct-way-to-pass-multiple-values-for-same-parameter-name-in-get-request
 
 app.use(express.json())
 
@@ -16,19 +18,17 @@ app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
 
 insertC19Data = async (data) => {
-  console.log('inserting c19')
   try {
   const insertData = await data.map(state => {
     pool.query('UPDATE states SET covid_infections = $2, covid_deaths = $3 WHERE fips = $1', [state.fips, state.latest.confirmed, state.latest.deaths]
     )})
   } catch(err){
-      console.error(err.message)
-    }
+    console.error(err.message)
+  }
 }
 
 app.get('/api/state/all', async (req, res, next) => {
   const knexInstance = req.app.get('db')
-  console.log(process.env.RAPID_API_KEY)
 
   var options = {
     method: 'GET',
