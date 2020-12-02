@@ -8,8 +8,8 @@ const pool = require("../db");
 router.get("/user_save", authorization, async (req, res) => {
   try {  
     
-    const user = await pool.query("SELECT users.user_name, user_saves.save_name, user_saves.fips FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
-    
+    const user = await pool.query("SELECT users.user_name, user_saves.save_name, user_saves.state_name, user_saves.state_abbrev, user_saves.fips, user_saves.pop, user_saves.covid_infections, user_saves.covid_deaths, user_saves.food_insecurity_rate, user_saves.ranking_fi, user_saves.poverty_rate, user_saves.ranking_pov, user_saves.trump, user_saves.biden, user_saves.ranking_repub, user_saves.ranking_dem, user_saves.white, user_saves.black, user_saves.hispanic, user_saves.asian, user_saves.other, user_saves.mixed_race, user_saves.ranking_mixed, user_saves.ranking_black, user_saves.ranking_white, user_saves.ranking_asian, user_saves.ranking_hispanic, user_saves.ranking_other FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
+    const userName = user.rows[0].user_name
     res.json(user.rows);
 
   } catch (error) {
@@ -22,7 +22,6 @@ router.get("/user_save/:save", authorization, async (req, res) => {
   try {
     const { save } = req.params 
     const saves = await pool.query("SELECT * FROM user_saves WHERE user_id = $1 AND save_name = $2", [req.user.id, save])
-    console.log(saves)
     res.json(saves.rows)
 
   } catch (error) {
@@ -34,17 +33,10 @@ router.get("/user_save/:save", authorization, async (req, res) => {
 
 router.post("/user_save", authorization, async (req, res) => {
   try {
-    const { save_name, fips } = req.body;
-
-    const checkIfSaveExists = await pool.query("SELECT save_name from user_saves WHERE save_name = $1 AND user_id = $2", [save_name, req.user.id])
-
-    if (checkIfSaveExists.rows.length > 0) {
-      return res.json('You already have a saved search with that name. Please select a different name.')
-    }
-
+    const { save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other } = req.body;
     const newSave = await pool.query(
-      "INSERT INTO user_saves (user_id, save_name, fips) VALUES ($1, $2, $3) RETURNING *",
-      [req.user.id, save_name, fips]
+      "INSERT INTO user_saves (user_id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28) RETURNING *",
+      [req.user.id, save_name, state_name, state_abbrev, fips, pop, covid_infections, covid_deaths, food_insecurity_rate, ranking_fi, poverty_rate, ranking_pov, trump, biden, ranking_repub, ranking_dem, white, black, hispanic, asian, other, mixed_race, ranking_mixed, ranking_black, ranking_white, ranking_asian, ranking_hispanic, ranking_other]
     );
     res.json(newSave.rows[0]);
   } catch (error) {
@@ -97,11 +89,10 @@ router.put("/user_save/:id", authorization, async (req, res) => {
 
 
 //delete one state from a save
-//NEEDS TO BE FIXED\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-router.put("/user_save/:save", authorization, async (req, res) => {
+router.delete("/user_save/state/:id", authorization, async (req, res) => {
   try {
-    const { id, fips } = req.params;
+    const { id } = req.params;
     const deleteState = await pool.query(
       "DELETE FROM user_saves WHERE save_id = $1 AND user_id = $2 RETURNING *",
       [id, req.user.id]
@@ -119,7 +110,7 @@ router.put("/user_save/:save", authorization, async (req, res) => {
 
 //delete entire save
 
-router.delete("/user_save/:save", authorization, async (req, res) => {
+router.delete("/user_save/save/:save", authorization, async (req, res) => {
   try {
   const { save } = req.params
 
@@ -129,7 +120,7 @@ router.delete("/user_save/:save", authorization, async (req, res) => {
     return res.json("This save is not yours or does not exist.");
   }
 
-  res.json("Save was deleted.");
+  res.json("Save entry was deleted.");
   } catch (error) {
     console.error(error.message)
   }

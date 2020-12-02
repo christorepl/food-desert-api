@@ -7,8 +7,6 @@ const cors = require('cors');
 const axios = require("axios").default;
 const StatesService = require('./StatesService/states-service')
 
-// https://stackoverflow.com/questions/24059773/correct-way-to-pass-multiple-values-for-same-parameter-name-in-get-request
-
 app.use(express.json())
 
 app.use(cors({
@@ -54,10 +52,10 @@ app.get('/api/state/all', async (req, res, next) => {
 
 
 app.get('/api/state/search', async (req, res, next) => {
-  //example url: http://baseURL:port/api/state/search?fips=01&fips=02
+  //example url: http://baseURL:port/api/state/search?fips=1,2
   const knexInstance = req.app.get('db')
-  const { fips } = req.query
-
+  const fipsIds = req.query.fips
+  const fips = fipsIds.split(',')
   let results = []
   for (let i = 0; i < fips.length; i++){
    await StatesService.getByFips(knexInstance, fips[i])
@@ -75,6 +73,8 @@ app.get('/api/state/search', async (req, res, next) => {
     })
     .catch(next)
   }
+
+  
   res.json(results)
 })
 
