@@ -8,7 +8,7 @@ const pool = require("../db");
 router.get("/user_save", authorization, async (req, res) => {
   try {  
     
-    const user = await pool.query("SELECT users.user_name, user_saves.save_name, user_saves.fips FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
+    const user = await pool.query("SELECT users.user_name, user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
     
     res.json(user.rows);
 
@@ -34,19 +34,38 @@ router.get("/user_save/:save", authorization, async (req, res) => {
 
 router.post("/user_save", authorization, async (req, res) => {
   try {
-    const { save_name, fips } = req.body;
+    const { save_name, fips, state_names } = req.body;
 
+    state_names.sort()
+    fips.sort((a,b) => {
+      return a - b
+    })
+
+    console.log('names: ', state_names)
+    console.log('fips: ', fips)
     const checkIfSaveExists = await pool.query("SELECT save_name from user_saves WHERE save_name = $1 AND user_id = $2", [save_name, req.user.id])
 
     if (checkIfSaveExists.rows.length > 0) {
       return res.json('You already have a saved search with that name. Please select a different name.')
     }
 
+    // let stateNames = []
+    // for (const [key, value] of Object.entries(state_names)) {
+    //   stateNames.push(key)
+    // }
+
+    // let fipsIds = []
+    // for (const [key, value] of Object.entries(fips)) {
+    //   fipsIds.push(key)
+    // }
+
     const newSave = await pool.query(
-      "INSERT INTO user_saves (user_id, save_name, fips) VALUES ($1, $2, $3) RETURNING *",
-      [req.user.id, save_name, fips]
+      "INSERT INTO user_saves (user_id, save_name, fips, state_names) VALUES ($1, $2, $3, $4) RETURNING *",
+      [req.user.id, save_name, fips, JSON.stringify(state_names)]
     );
-    res.json(newSave.rows[0]);
+
+    console.log(newSave.rows[0])
+    res.json('Search successfully saved!');
   } catch (error) {
     console.error(error.message);
   }
@@ -56,11 +75,12 @@ router.post("/user_save", authorization, async (req, res) => {
 
 //update a save
 
-router.put("/user_save/:id", authorization, async (req, res) => {
+router.put("/user_save/:save_name", authorization, async (req, res) => {
   try {
-    const { id } = req.params;
-    const { new_save_name, save_name } = req.body;
+    const { save_name } = req.params;
+    const { new_save_name } = req.body;
     const user = req.user.id
+    console.log('body', req.body, 'params:  ', req.params)
     
     // const checkIfSaveExists = await pool.query("SELECT save_name from user_saves WHERE save_name = $1 AND user_id = $2", [save_name, req.user.id])
 
@@ -88,7 +108,8 @@ router.put("/user_save/:id", authorization, async (req, res) => {
       return res.json("This save is not yours.");
     }
 
-    res.json("Save was updated.");
+    res.json(updateSave)
+    // res.json("Save was updated.");
 
   } catch (error) {
     console.error(error.message);
@@ -99,31 +120,31 @@ router.put("/user_save/:id", authorization, async (req, res) => {
 //delete one state from a save
 //NEEDS TO BE FIXED\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-router.put("/user_save/:save", authorization, async (req, res) => {
-  try {
-    const { id, fips } = req.params;
-    const deleteState = await pool.query(
-      "DELETE FROM user_saves WHERE save_id = $1 AND user_id = $2 RETURNING *",
-      [id, req.user.id]
-    );
+// router.put("/user_save/:save", authorization, async (req, res) => {
+//   try {
+//     const { id, fips } = req.params;
+//     const deleteState = await pool.query(
+//       "DELETE FROM user_saves WHERE save_id = $1 AND user_id = $2 RETURNING *",
+//       [id, req.user.id]
+//     );
 
-    if (deleteState.rows.length === 0) {
-      return res.json("This save is not yours or does not exist.");
-    }
+//     if (deleteState.rows.length === 0) {
+//       return res.json("This save is not yours or does not exist.");
+//     }
 
-    res.json("State entry was deleted from your save.");
-  } catch (error) {
-    console.error(error.message);
-  }
-});
+//     res.json("State entry was deleted from your save.");
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// });
 
 //delete entire save
 
-router.delete("/user_save/:save", authorization, async (req, res) => {
+router.delete("/user_save/:save_name", authorization, async (req, res) => {
   try {
-  const { save } = req.params
+  const { save_name } = req.params
 
-  const deleteSave = await pool.query("DELETE from user_saves WHERE save_name = $1 AND user_id = $2 RETURNING *", [save, req.user.id])
+  const deleteSave = await pool.query("DELETE from user_saves WHERE save_name = $1 AND user_id = $2 RETURNING *", [save_name, req.user.id])
 
   if (deleteSave.rows.length === 0) {
     return res.json("This save is not yours or does not exist.");

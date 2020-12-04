@@ -5,5 +5,6 @@ CREATE TABLE user_saves (
     user_id UUID NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     modified TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    fips VARCHAR(255) NOT NULL
+    fips TEXT NOT NULL,
+    state_names TEXT NOT NULL
 );

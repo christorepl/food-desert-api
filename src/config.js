@@ -12,3 +12,5 @@ module.exports = {
 }
 
 // DATABASE_URL: process.env.DATABASE_URL || 'postgresql://chris@localhost/food-desert',
+    // CLIENT_ORIGIN: 'https://food-desert.vercel.app' || 'home',
+
