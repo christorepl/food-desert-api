@@ -45,7 +45,7 @@ router.post('/login', validInfo, async (req, res) => {
       ]);
   
       if (user.rows.length === 0) {
-        return res.status(405).json('Invalid Credentials');
+        return res.status(401).json('Invalid Credentials');
       }
   
       const validPassword = await bcrypt.compare(
@@ -54,7 +54,7 @@ router.post('/login', validInfo, async (req, res) => {
       );
   
       if (!validPassword) {
-        return res.status(406).json('Invalid Credential');
+        return res.status(401).json('Invalid Credential');
       }
       const user_name = user.rows[0].user_name
       const jwt_token = jwtGenerator(user.rows[0].user_id);
