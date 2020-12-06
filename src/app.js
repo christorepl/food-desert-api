@@ -13,7 +13,7 @@ app.use(helmet())
 app.use(express.json())
 
 app.use(cors({
-  origin: CLIENT_ORIGIN
+  origin: CLIENT_ORIGIN,
 }))
 
 
@@ -83,7 +83,8 @@ app.get('/api/state/search', async (req, res, next) => {
   res.json(results)
 })
 
-app.use((error, req, res, next) =>{ 
+app.use((error, req, res, next) =>{
+  res.setHeader('Access-Control-Allow-Origin', CLIENT_ORIGIN);
   let response
   if (process.env.NODE_ENV === 'production') {
     response = { error: { message: 'Server Error' }}

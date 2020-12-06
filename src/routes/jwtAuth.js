@@ -27,8 +27,9 @@ router.post('/register', validInfo, async (req, res) => {
       );
 
       const jwt_token = jwtGenerator(newUser.rows[0].user_id);
+      const new_user_name = newUser.rows[0].user_name
 
-      return res.json({ jwt_token });
+      return res.json({ new_user_name, jwt_token });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
@@ -55,8 +56,9 @@ router.post('/login', validInfo, async (req, res) => {
       if (!validPassword) {
         return res.status(401).json('Invalid Credential');
       }
+      const user_name = user.rows[0].user_name
       const jwt_token = jwtGenerator(user.rows[0].user_id);
-      return res.json({ jwt_token });
+      return res.json({ jwt_token, user_name });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
@@ -65,7 +67,9 @@ router.post('/login', validInfo, async (req, res) => {
   
 router.get('/verify', authorization, async (req, res) => {
     try {
-      res.json(true);
+      const user = await pool.query("SELECT user_name FROM users WHERE user_id = $1", [req.user.id])
+      const user_name = user.rows[0].user_name
+      res.json({user_name, status: true});
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
