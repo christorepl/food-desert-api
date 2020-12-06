@@ -2,12 +2,25 @@ const knex = require('knex')
 const supertest = require('supertest')
 const app = require('../src/app')
 const { expect } = require('chai')
-const helpers = require('./test-helper')
 
 describe('Auth Endpoints', function() {
     let db
 
-    const testUsers = helpers.userArr
+    const testUsers = [
+        {
+          user_id: '1ac1a124-9aaa-4b2f-9cbb-6039a083f958',
+          user_name: 'chris',
+          user_email: 'chris@chris.com',
+          user_password: 'chris',
+        },
+        {
+          user_id: 'd1eff057-955f-4457-82d6-243b543ec34d',
+          user_name: 'Tori',
+          user_email: 'tori@tori.com',
+          user_password: 'tori',
+        },
+      ];
+      
     const testUser = testUsers[0]
 
     before('knex instance', () => {
@@ -20,8 +33,8 @@ describe('Auth Endpoints', function() {
 
     after('destroy db', () => db.destroy())
 
-    beforeEach('cleanup', () => helpers.cleanTable(db))
-    afterEach('cleanup', () => helpers.cleanTable(db))
+    beforeEach('cleanup', () => db.destroy())
+    afterEach('cleanup', () => db.destroy())
 
     describe(`POST /auth/login`, ()=> {
         beforeEach('insert users', () => {
