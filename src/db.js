@@ -17,5 +17,3 @@ const pool = new Pool({
 // })
 
 module.exports = pool;
-
-//DATABASE_URL='postgres://jkknuelixacsyg:6e4897fe1493881fdb74c49a47c051ca74d0025b4fb0764c2707cdba937e137a@ec2-3-214-46-194.compute-1.amazonaws.com:5432/d30r6e5usgfhbk'
