@@ -13,7 +13,16 @@ const pool = new Pool({
 //     user: 'chris',
 //     host: 'localhost',
 //     port: 5432,
-//     database: 'food-desert'
+//     database: 'food-desert-test'
 // })
 
+
+//TEST POOL
+
+// const pool = new Pool({
+//     user: 'chris',
+//     host: 'localhost',
+//     port: 5432,
+//     database: 'food-desert-test'
+// })
 module.exports = pool;

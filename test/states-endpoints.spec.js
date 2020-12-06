@@ -5,13 +5,12 @@ require('dotenv').config()
 const app = require('../src/app')
 
 describe('Articles endpoints', function(){
-    this.timeout(15000)
     let db
 
     before('make knex isntance', () => {
         db = knex({
             client: 'pg',
-            connection: 'postgresql://chris@localhost/food-desert-test'
+            connection: process.env.TEST_DATABASE_URL
         })
         app.set('db', db)
     })
