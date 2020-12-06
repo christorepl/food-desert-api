@@ -5,12 +5,13 @@ module.exports = {
     RAPID_API_KEY: process.env.RAPID_API_KEY || process.env.RAPID_API_KEY,
     CLIENT_ORIGIN: 'https://food-desert.vercel.app' || 'home',
     USER: process.env.USER,
+    JWT_SECRET: process.env.JWT_SECRET,
     PASSWORD: process.env.PASSWORD,
     DATABASE: process.env.DATABASE,
     DBPORT: process.env.DBPORT,
     HOST: process.env.HOST
 }
 
-// DATABASE_URL: process.env.DATABASE_URL || 'postgresql://chris@localhost/food-desert',
+    // DATABASE_URL: process.env.DATABASE_URL || 'postgresql://chris@localhost/food-desert',
     // CLIENT_ORIGIN: 'https://food-desert.vercel.app' || 'home',
 

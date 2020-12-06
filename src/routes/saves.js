@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { CLIENT_ORIGIN } = require('../config')
 const authorization = require("../middleware/authorization");
 const pool = require("../db");
 
@@ -46,16 +45,6 @@ router.post("/saved_search", authorization, async (req, res) => {
       return res.json('You already have a saved search with that name. Please select a different name.')
     }
 
-    // let stateNames = []
-    // for (const [key, value] of Object.entries(state_names)) {
-    //   stateNames.push(key)
-    // }
-
-    // let fipsIds = []
-    // for (const [key, value] of Object.entries(fips)) {
-    //   fipsIds.push(key)
-    // }
-
     const newSave = await pool.query(
       "INSERT INTO user_saves (user_id, save_name, fips, state_names) VALUES ($1, $2, $3, $4) RETURNING *",
       [req.user.id, save_name, fips, JSON.stringify(state_names)]
@@ -71,8 +60,6 @@ router.post("/saved_search", authorization, async (req, res) => {
   }
 });
 
-
-
 //update a save
 
 router.put("/saved_search/:save_name", authorization, async (req, res) => {
@@ -86,7 +73,7 @@ router.put("/saved_search/:save_name", authorization, async (req, res) => {
     if (existingSave.rows.length > 0){
       existingSaveName = existingSave.rows[0].save_name
       if (existingSaveName){
-        return res.json("New save name must differ from your current save names.")
+        return res.json("You already have a save with that name! Please choose a different name.")
       }
     }
 
@@ -99,8 +86,7 @@ router.put("/saved_search/:save_name", authorization, async (req, res) => {
       return res.json("This save is not yours.");
     }
 
-    
-    res.json(updateSave.rows);
+    res.json(updateSave.rows[0]).status(200);
 
   } catch (error) {
     console.error(error.message);
@@ -116,8 +102,6 @@ router.delete("/saved_search/:save_name", authorization, async (req, res) => {
 
   const deleteSave = await pool.query("DELETE from user_saves WHERE save_name = $1 AND user_id = $2 RETURNING *", [save_name, req.user.id])
 
-
-
   if (deleteSave.rows.length === 0) {
     return res.json("This save is not yours or does not exist.");
   }
@@ -126,7 +110,6 @@ router.delete("/saved_search/:save_name", authorization, async (req, res) => {
   } catch (error) {
     console.error(error.message)
   }
-
 })
 
 module.exports = router;

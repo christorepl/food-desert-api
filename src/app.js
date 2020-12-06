@@ -13,7 +13,7 @@ app.use(helmet())
 app.use(express.json())
 
 app.use(cors({
-  origin: CLIENT_ORIGIN,
+  // origin: CLIENT_ORIGIN,
 }))
 
 
