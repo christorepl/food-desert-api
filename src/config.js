@@ -5,7 +5,7 @@ module.exports = {
     CLIENT_ORIGIN: 'https://food-desert.vercel.app' || 'home',
     RAPID_API_KEY: process.env.RAPID_API_KEY || process.env.RAPID_API_KEY,
     USER: process.env.USER,
-    JWT_SECRET: process.env.JWT_SECRET,
+    jwtSecret: process.env.jwtSecret,
     PASSWORD: process.env.PASSWORD,
     DATABASE: process.env.DATABASE,
     DBPORT: process.env.DBPORT,

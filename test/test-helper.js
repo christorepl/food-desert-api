@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = require('../src/config');
+const jwtSecret = require('../src/config');
 
 function cleanTable(db) {
   return db.raw(
@@ -10,8 +10,8 @@ function cleanTable(db) {
   );
 }
 
-// function makeAuthHeader(email, JWT_SECRET) {
-//   const token = jwt.sign({ id: user.id }, JWT_SECRET, {
+// function makeAuthHeader(email, jwtSecret) {
+//   const token = jwt.sign({ id: user.id }, jwtSecret, {
 //     subject: email,
 //     algorithm: 'HS256',
 //   });
