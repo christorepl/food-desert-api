@@ -2,12 +2,10 @@ const router = require("express").Router();
 const authorization = require("../middleware/authorization");
 const pool = require("../db");
 
-// user_saves.user_id, user_saves.save_name, user_saves.state_name, user_saves.state_abbrev, user_saves.fips, user_saves.pop, user_saves.covid_infections, user_saves.covid_deaths, user_saves.food_insecurity_rate, user_saves.ranking_fi, user_saves.poverty_rate, user_saves.ranking_pov, user_saves.trump, user_saves.biden, user_saves.ranking_repub, user_saves.ranking_dem, user_saves.white, user_saves.black, user_saves.hispanic, user_saves.asian, user_saves.other, user_saves.mixed_race, user_saves.ranking_mixed, user_saves.ranking_black, user_saves.ranking_white, user_saves.ranking_asian, user_saves.ranking_hispanic, user_saves.ranking_other
-
 router.get("/saved_search", authorization, async (req, res) => {
   try {  
     
-    const user = await pool.query("SELECT user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
+    const user = await pool.query("SELECT user_saves.modified, user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
     
     res.json(user.rows);
 
