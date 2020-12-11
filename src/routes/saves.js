@@ -7,7 +7,6 @@ router.get("/saved_search", authorization, async (req, res) => {
     
     const user = await pool.query("SELECT user_saves.modified, user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
     
-    console.log('CONSOLE LOG USER.ROWS', user.rows)
     res.json(user.rows);
 
   } catch (error) {
@@ -32,6 +31,12 @@ router.get("/saved_search/:save", authorization, async (req, res) => {
 router.post("/saved_search", authorization, async (req, res) => {
   try {
     const { save_name, fips, state_names } = req.body;
+
+    save_name.length > 30
+    ?
+    res.json('Please choose a shorter name for your save.')
+    :
+    null
 
     state_names.sort()
     fips.sort((a,b) => {
