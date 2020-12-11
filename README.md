@@ -6,6 +6,11 @@ This app allows users to explore and investigate data related to food insecurity
 [Link to Live App](https://food-justice-now.vercel.app/home)
 [Server Repo](https://github.com/christorepl/food-desert-api)
 
+![screenshot-1](https://raw.githubusercontent.com/christorepl/food-deserts/main/Screenshots/screenshot.png)
+
+![screenshot-2](https://raw.githubusercontent.com/christorepl/food-deserts/main/Screenshots/screenshot2.png)
+
+
 ## Technologies
 
 ### Back-end
@@ -13,6 +18,9 @@ This app allows users to explore and investigate data related to food insecurity
 * Express
 * Postgresql
 * Heroku Deployment
+
+### API used for COVID Data:
+[coronavirus-us-api](https://rapidapi.com/Spiderpig86/api/coronavirus-us-api)
 
 ### Testing
 * Mocha
@@ -22,6 +30,8 @@ This app allows users to explore and investigate data related to food insecurity
 ### Front-end
 * React
 * Vercel Deployment
+* JSX
+* CSS
 
 ## Authentication
 | Method    | Endpoint           | Usage                 | Returns      |
