@@ -4,7 +4,7 @@
 This app allows users to explore and investigate data related to food insecurity, COVID, racial demographics, poverty and voting tendencies in the US. The app displays raw data numbers and includes visual aids in the form of pie graphs and bar charts to compare the data from different states.
 
 [Link to Live App](https://food-justice-now.vercel.app/home)
-[Server Repo](https://github.com/christorepl/food-desert-api)
+[Client Repo](https://github.com/christorepl/food-desert)
 
 ![screenshot-1](https://raw.githubusercontent.com/christorepl/food-deserts/main/Screenshots/screenshot.png)
 
