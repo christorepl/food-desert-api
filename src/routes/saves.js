@@ -7,7 +7,7 @@ router.get("/saved_search", authorization, async (req, res) => {
     
     const user = await pool.query("SELECT user_saves.modified, user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
     
-    res.json(user.rows);
+    res.json(user.rows).status(200);
 
   } catch (error) {
     ('saves line 20', error.message);
@@ -56,7 +56,7 @@ router.post("/saved_search", authorization, async (req, res) => {
 
     const userSaves = await pool.query("SELECT users.user_name, user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
     
-    res.json(userSaves.rows);
+    res.json(userSaves.rows).status(200);
   
 
   } catch (error) {
@@ -107,7 +107,7 @@ router.delete("/saved_search/:save_name", authorization, async (req, res) => {
   const deleteSave = await pool.query("DELETE from user_saves WHERE save_name = $1 AND user_id = $2 RETURNING *", [save_name, req.user.id])
 
   if (deleteSave.rows.length === 0) {
-    return res.json("This save is not yours or does not exist.");
+    return res.json("This save is not yours or does not exist.").status(401);
   }
   res.json("Save successfully deleted.").status(204)
 

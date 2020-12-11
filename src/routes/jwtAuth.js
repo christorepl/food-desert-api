@@ -68,7 +68,7 @@ router.get('/verify', authorization, async (req, res) => {
     try {
       const user = await pool.query("SELECT user_name FROM users WHERE user_id = $1", [req.user.id])
       const user_name = user.rows[0].user_name
-      res.json({user_name, status: true});
+      res.json({user_name, status: true}).status(200);
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');

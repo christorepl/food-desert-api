@@ -90,7 +90,7 @@ app.get('/api/state/all', async (req, res, next) => {
           return a.id - b.id
         })
         let organizedStates = sortCovidDeathsStates
-      res.json(organizedStates)
+      res.json(organizedStates).status(200)
     })
     .catch(next)
 })
@@ -122,7 +122,7 @@ app.get('/api/state/search', async (req, res, next) => {
   }
 
   
-  res.json(results)
+  res.json(results).status(200)
 })
 
 app.use((error, req, res, next) =>{
