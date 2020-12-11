@@ -7,6 +7,7 @@ router.get("/saved_search", authorization, async (req, res) => {
     
     const user = await pool.query("SELECT user_saves.modified, user_saves.save_name, user_saves.fips, user_saves.state_names FROM users LEFT JOIN user_saves ON users.user_id = user_saves.user_id WHERE users.user_id = $1", [req.user.id])
     
+    console.log(user.rows)
     res.json(user.rows);
 
   } catch (error) {
