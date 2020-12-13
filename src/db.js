@@ -13,7 +13,7 @@ const pool = new Pool({
 //     user: 'chris',
 //     host: 'localhost',
 //     port: 5432,
-//     database: 'food-desert-test'
+//     database: 'food-desert'
 // })
 
 

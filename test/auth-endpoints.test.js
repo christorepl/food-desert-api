@@ -1,7 +1,6 @@
 const knex = require('knex')
 const supertest = require('supertest')
 const app = require('../src/app')
-const jwtAuth = require('../src/routes/jwtAuth')
 require('dotenv').config()
 const helpers = require('./test-helper')
 
@@ -9,10 +8,10 @@ describe('Auth Endpoints', function() {
     let db
     
     const testUser = {
-            user_id: '1ac1a124-9aaa-4b2f-9cbb-6039a083f958',
-            user_name: 'chris',
-            user_email: 'chris@chris.com',
-            user_password: 'chris',
+        user_id: '1bc1a124-9aaa-4b2f-9cbb-6039a083f958',
+        user_name: "jimmy",
+        user_email: "jimmy@jimmy.com",
+        user_password: "jimmy",
     }
     
     before('make knex instance', () => {
@@ -25,9 +24,7 @@ describe('Auth Endpoints', function() {
     
     after('destory db', () => db.destroy())
 
-    beforeEach('cleanup', () => helpers.cleanTable(db))
-
-    afterEach('cleanup', () => helpers.cleanTable(db))
+    afterEach('cleanup', () => helpers.cleanUsersTable(db))
     
     describe(`POST /auth/login`, () => {
         before('insert users', () => {
@@ -35,10 +32,11 @@ describe('Auth Endpoints', function() {
                 .insert(testUser)
                 .into('users')
         })
+
         it('given a valid email and pw, respond with 201', ()=> {
             const login = {
-               email: testUser.user_email,
-               password: testUser.user_password
+                email: "jimmy@jimmy.com",
+                password: "jimmy",
             }
         
         return supertest(app)

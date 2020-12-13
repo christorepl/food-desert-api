@@ -1,24 +1,16 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const jwtSecret = require('../src/config');
-
-function cleanTable(db) {
+function cleanUsersTable(db) {
   return db.raw(
-    `TRUNCATE
-            users
-            RESTART IDENTITY CASCADE`
+    `TRUNCATE users RESTART IDENTITY CASCADE`
   );
 }
 
-// function makeAuthHeader(email, jwtSecret) {
-//   const token = jwt.sign({ id: user.id }, jwtSecret, {
-//     subject: email,
-//     algorithm: 'HS256',
-//   });
-//   return `jwt_token ${token}`;
-// }
+function cleanSavesTable(db) {
+  return db.raw(
+    `TRUNCATE user_saves RESTART IDENTITY CASCADE`
+  )
+}
 
 module.exports = {
-  cleanTable,
-  // makeAuthHeader,
+  cleanUsersTable,
+  cleanSavesTable
 };

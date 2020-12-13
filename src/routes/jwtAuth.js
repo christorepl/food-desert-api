@@ -37,14 +37,14 @@ router.post('/register', validInfo, async (req, res) => {
   
 router.post('/login', validInfo, async (req, res) => {
     const { email, password } = req.body;
-  
+
     try {
       const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [
         email
       ]);
   
       if (user.rows.length === 0) {
-        return res.status(401).json('Invalid Credentials');
+        return res.status(401).json('Invalid Credential');
       }
   
       const validPassword = await bcrypt.compare(
@@ -57,7 +57,7 @@ router.post('/login', validInfo, async (req, res) => {
       }
       const user_name = user.rows[0].user_name
       const jwt_token = jwtGenerator(user.rows[0].user_id);
-      return res.json({ jwt_token, user_name });
+      return res.status(201).json({ jwt_token, user_name });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error');
