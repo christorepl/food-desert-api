@@ -8,7 +8,6 @@ const cors = require('cors');
 const axios = require("axios").default;
 const StatesService = require('./StatesService/StatesService')
 
-
 app.use(helmet())
 app.use(express.json())
 
@@ -19,8 +18,6 @@ app.use(cors({
 
 app.use('/auth', require('./routes/jwtAuth'))
 app.use('/api/save', require('./routes/saves'))
-
-
 
 insertC19Data = async (data) => {
   try {
