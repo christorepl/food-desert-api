@@ -16,7 +16,6 @@ const pool = new Pool({
 //     database: 'food-desert'
 // })
 
-
 //TEST POOL
 
 // const pool = new Pool({

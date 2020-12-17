@@ -4,7 +4,7 @@ const supertest = require('supertest')
 require('dotenv').config()
 const app = require('../src/app')
 
-describe('States endpoints', function(){
+describe.only('States endpoints', function(){
     let db
 
     before('make knex isntance', () => {

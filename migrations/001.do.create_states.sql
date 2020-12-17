@@ -29,5 +29,4 @@ CREATE TABLE states (
     ranking_pov INTEGER NOT NULL,
     ranking_fi INTEGER NOT NULL
     --food insecurity ranking
-
 );
