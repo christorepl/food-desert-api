@@ -1,6 +1,9 @@
 const knex = require('knex')
 const app = require('./app')
-const { PORT, DATABASE_URL } = require('./config')
+const {
+  PORT,
+  DATABASE_URL
+} = require('./config')
 require('dotenv').config()
 
 const db = knex({
@@ -10,4 +13,6 @@ const db = knex({
 
 app.set('db', db)
 
-app.listen(PORT, () => {console.log(`listening on ${PORT}`)})
+app.listen(PORT, () => {
+  console.log(`listening on ${PORT}`)
+})

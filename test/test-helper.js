@@ -1,7 +1,7 @@
 function cleanUsersTable(db) {
   return db.raw(
     `TRUNCATE users RESTART IDENTITY CASCADE`
-  );
+  )
 }
 
 function cleanSavesTable(db) {
@@ -13,4 +13,4 @@ function cleanSavesTable(db) {
 module.exports = {
   cleanUsersTable,
   cleanSavesTable
-};
+}

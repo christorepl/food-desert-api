@@ -4,16 +4,16 @@ const app = require('../src/app')
 require('dotenv').config()
 const helpers = require('./test-helper')
 
-describe('Auth Endpoints', function() {
+describe('Auth Endpoints', function () {
     let db
-    
+
     const testUser = {
         user_id: '1bc1a124-9aaa-4b2f-9cbb-6039a083f958',
         user_name: "jimmy",
         user_email: "jimmy@jimmy.com",
         user_password: "jimmy",
     }
-    
+
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
@@ -21,11 +21,11 @@ describe('Auth Endpoints', function() {
         })
         app.set('db', db)
     })
-    
+
     after('destory db', () => db.destroy())
 
     afterEach('cleanup', () => helpers.cleanUsersTable(db))
-    
+
     describe(`POST /auth/login`, () => {
         before('insert users', () => {
             return db
@@ -33,21 +33,21 @@ describe('Auth Endpoints', function() {
                 .into('users')
         })
 
-        it('given a valid email and pw, respond with 201', ()=> {
+        it('given a valid email and pw, respond with 201', () => {
             const login = {
                 email: "jimmy@jimmy.com",
                 password: "jimmy",
             }
-        
-        return supertest(app)
-            .post('/auth/login')
-            .send(login)
-            .expect(201)
+
+            return supertest(app)
+                .post('/auth/login')
+                .send(login)
+                .expect(201)
         })
     })
 
     describe(`POST /auth/register`, () => {
-        it('Given a username, email and hashed password, respond with 201', ()=> {
+        it('Given a username, email and hashed password, respond with 201', () => {
             const user = {
                 user_name: 'joey',
                 email: 'joey14@joey.com',
@@ -59,5 +59,5 @@ describe('Auth Endpoints', function() {
                 .send(user)
                 .expect(201)
         })
-    })    
+    })
 })

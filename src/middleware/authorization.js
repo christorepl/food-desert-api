@@ -3,13 +3,16 @@ require("dotenv").config();
 
 //this middleware will on continue on if the token is inside the local storage
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   // Get token from header
   const jwt_token = req.header("jwt_token");
 
   // Check if not token
   if (!jwt_token) {
-    return res.status(403).json({ msg: "Authorization Denied" });
+    return res.status(403).json({
+      msg: "Authorization Denied",
+      type: "DANGER",
+    });
   }
 
   // Verify token
@@ -20,6 +23,9 @@ module.exports = function(req, res, next) {
     req.user = verify.user;
     next();
   } catch (error) {
-    res.status(401).json({ msg: "Invalid login" });
+    res.status(401).json({
+      msg: "Invalid login",
+      type: "DANGER",
+    });
   }
 };
