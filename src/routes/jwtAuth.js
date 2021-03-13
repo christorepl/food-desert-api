@@ -90,6 +90,7 @@ router.post("/login", validInfo, async (req, res) => {
 });
 
 router.get("/verify", authorization, async (req, res) => {
+  console.log(req);
   try {
     const user = await pool.query(
       "SELECT user_name FROM users WHERE user_id = $1",

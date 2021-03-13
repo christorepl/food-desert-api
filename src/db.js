@@ -12,10 +12,11 @@ const pool = new Pool({
 //TEST POOL
 
 // const pool = new Pool({
-//     user: 'chris',
-//     host: 'localhost',
-//     port: 5432,
-//     database: 'food-desert-test'
-// })
+//     user: process.env.USER,
+//     password: process.env.PASSWORD,
+//     host: process.env.HOST,
+//     port: process.env.DBPORT,
+//     database: process.env.TEST_DATABASE_URL,
+//   });
 
 module.exports = pool;

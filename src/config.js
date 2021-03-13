@@ -13,6 +13,3 @@ module.exports = {
   DBPORT: process.env.DBPORT,
   HOST: process.env.HOST,
 };
-
-// DATABASE_URL: process.env.DATABASE_URL || 'postgresql://chris@localhost/food-desert',
-// CLIENT_ORIGIN: 'https://food-justice-now.vercel.app' || 'home',
