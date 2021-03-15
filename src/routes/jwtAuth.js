@@ -8,8 +8,6 @@ const jwtGenerator = require("../utils/jwtGenerator");
 const authorization = require("../middleware/authorization");
 
 router.post("/register", validInfo, async (req, res) => {
-  console.log(req);
-
   const { email, user_name, password } = req.body;
 
   try {
@@ -49,8 +47,6 @@ router.post("/register", validInfo, async (req, res) => {
 });
 
 router.post("/login", validInfo, async (req, res) => {
-  console.log(req);
-
   const { email, password } = req.body;
 
   try {

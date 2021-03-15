@@ -12,7 +12,7 @@ insertC19Data = async (data) => {
         [state.fips, state.latest.confirmed, state.latest.deaths]
       );
     });
-    console.log("C19 data updated");
+    return;
   } catch (err) {
     console.error(err.message);
   }
